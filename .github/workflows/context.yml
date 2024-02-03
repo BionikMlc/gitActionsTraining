@@ -1,0 +1,7 @@
+name: context workflow
+on: issues
+jobs:
+  get_details:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'event name ${{ toJSON(github.event_name)	}}'
