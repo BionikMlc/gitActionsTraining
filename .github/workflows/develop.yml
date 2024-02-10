@@ -1,0 +1,36 @@
+# given a react project create a workflow to run tests on branch develop only
+# when a pull request is opened or code is pushed, knowing that a manual trigger should also be available.
+# * any changes to workflow files should be ignored on code push.
+
+name: develop workflow
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+    paths-ignore:
+      - '.giithub/workflows/*'
+  workflow_dispatch:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code 
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: npm ci
+      - name: run lint
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: npm ci
+      - name: run tests
+        run: npm run test
